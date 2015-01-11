@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="CoffeVendingMaсhine.Views.VendingMachineView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:commands="clr-namespace:CoffeVendingMaсhine.CompositeCommands"
+             Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Кофейный аппарат" />
+
+        <Border Grid.Row="1" Grid.Column="1" BorderThickness="1" Height="110"
+                BorderBrush="SlateGray" Margin="2" VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical" Margin="4">
+                <TextBlock Text="Монетоприемник" />
+                <TextBlock Text="{Binding Change.Total}" />
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="2" BorderThickness="1" Height="110"
+                BorderBrush="SlateGray" Margin="2" VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical" Margin="4">
+            <TextBlock Text="Сдача" />
+            <TextBlock Text="{Binding Change.Total}" />
+            <Button Content="Получить сдачу"
+                    Command="{x:Static commands:Commands.GetChangeCommand}"
+                    CommandParameter="{Binding Change}"/>
+        </StackPanel>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="0" BorderThickness="1"
+                BorderBrush="SlateGray" Margin="2">
+            <ContentControl Content="{Binding DrinksListViewModel.Content}" />
+        </Border>
+
+        <TextBlock Grid.Row="2" Text="Монеты для сдачи"/>
+        
+        <Border Grid.Row="3" Grid.Column="0" BorderThickness="1"
+                BorderBrush="SlateGray" Margin="2">
+            <ContentControl Content="{Binding CoinsListViewModel.Content}" />
+        </Border>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal">
+            <TextBlock Text="Сумма в кофейном аппарате: " />
+            <TextBlock Grid.Column="0" Text="{Binding Wallet.Total}"/>
+        </StackPanel> 
+        
+    </Grid>
+</UserControl>

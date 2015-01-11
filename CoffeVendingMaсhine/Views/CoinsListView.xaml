@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="CoffeVendingMaсhine.Views.CoinsListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Converters="clr-namespace:CoffeVendingMaсhine.Converters"
+             mc:Ignorable="d"
+             Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <UserControl.Resources>
+
+        <Converters:BooleanToCollapsedVisibilityConverter x:Key="BooleanToCollapsedVisibilityConverter" />
+
+    </UserControl.Resources>
+
+
+    <Grid>
+        <ItemsControl
+            ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}, Path=DataContext.Wallet.Coins}"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            FontSize="16" Margin="4">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Text="{Binding Value}" />
+
+                        <TextBlock Grid.Column="1" Text="{Binding Count}" />
+
+                        <Button Content="Внести" Grid.Column="2"
+                                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}, Path=DataContext.PutCoinToBoxCommand}"
+                                CommandParameter="{Binding}"
+                                Visibility="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.CanOperateCoinsFromUI, Converter={StaticResource BooleanToCollapsedVisibilityConverter}}" />
+
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

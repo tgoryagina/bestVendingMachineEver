@@ -52,7 +52,7 @@ namespace CoffeVendingMaсhine.ViewModels
 
         public override string DisplayName
         {
-            get { return "Аппарат по продаже кофе"; }
+            get { return "Validation sample application"; }
         }
 
         #endregion реализация Workspace

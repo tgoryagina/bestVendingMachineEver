@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using CoffeVendingMaсhine.Calculator.Contracts;
 using CoffeVendingMaсhine.CompositeCommands;
@@ -9,7 +10,7 @@ using Microsoft.Practices.Composite.Presentation.Commands;
 
 namespace CoffeVendingMaсhine.ViewModels
 {
-    public class VendingMachineViewModel : MoneyOperableViewModelBase<VendingMachineView>, IVendingMachineViewModel
+    public class VendingMachineViewModel : MoneyOperableViewModelBase<VendingMachineView>, IVendingMachineViewModel, IDataErrorInfo 
     {
         #region Поля
 
@@ -41,6 +42,8 @@ namespace CoffeVendingMaсhine.ViewModels
         {
             get { return _drinksListViewModel; }
         }
+
+
 
         #endregion Свойства
 
@@ -157,5 +160,128 @@ namespace CoffeVendingMaсhine.ViewModels
         }
 
         #endregion Закрытые методы
+
+		#region 
+
+		private int _FIMSamlet_score;
+		public int FIMSamlet_score
+		{
+			get { return _FIMSamlet_score; }
+			set
+			{
+			//	if (Int32.Parse(value.ToString()) < 18 || Int32.Parse(value.ToString()) > 126)
+				//{ throw new ArgumentException("The value must be between 18 and 126"); }
+				_FIMSamlet_score = value;
+				//CalculateFimSamletscore();
+				//OnPropertyChanged("FIMSamlet_score");
+			}
+		}
+
+
+		private string a;
+		public string A
+		{
+			get { return a; }
+			set
+			{
+				//if (Int32.Parse(value.ToString()) < 18 || Int32.Parse(value.ToString()) > 126)
+				//{ throw new ArgumentException("The value must be between 18 and 126"); }
+				a = value;
+				CalculateFimSamletscore();
+				NotifyPropertyChanged("A");
+			}
+		}
+
+		private string b;
+		public string B
+		{
+			get { return b; }
+			set
+			{
+			//	if (Int32.Parse(value.ToString()) < 18 || Int32.Parse(value.ToString()) > 126)
+			//	{ throw new ArgumentException("The value must be between 18 and 126"); }
+				b = value;
+				CalculateFimSamletscore();
+				NotifyPropertyChanged("B");
+			}
+		}
+
+//My method for calculation on entered values.
+
+private void CalculateFimSamletscore()
+{
+
+	int intA;
+	int intB;
+
+	Int32.TryParse(A, out intA);
+	Int32.TryParse(B, out intB);
+
+	_FIMSamlet_score = intA + intB;
+	NotifyPropertyChanged("FIMSamlet_score");
+
+		//try
+		//{
+		//	_FIMSamlet_score = Convert.ToInt32(A)
+		//					  + Convert.ToInt32(B);
+		//	//	+ Convert.ToInt32(c)
+		//	//	+ Convert.ToInt32(d)
+		//	//	+ Convert.ToInt32(e)
+		//	//	+ Convert.ToInt32(f)
+		//	//	+ Convert.ToInt32(g)
+		//	//	+ Convert.ToInt32(h)
+		//	//	+ Convert.ToInt32(i)
+		//	//	+ Convert.ToInt32(j)
+		//	//	+ Convert.ToInt32(k)
+		//	//	+ Convert.ToInt32(l)
+		//	//	+ Convert.ToInt32(m);
+		//	NotifyPropertyChanged("FIMSamlet_score");
+		//}
+		//catch (Exception)
+		//{
+
+		//}
     }
+
+		#endregion
+
+#region IDataErrorInfo Members
+
+public string Error
+{
+	get { return ""; }
+}
+
+public string this[string columnName]
+{
+	get
+            {
+                String errorMessage = String.Empty;
+                switch (columnName)
+                {
+                    case "FIMSamlet_score":
+                        if (FIMSamlet_score < 18 || FIMSamlet_score > 126)
+                        {
+                            errorMessage = "The value must be between 18 and 126";
+                        }
+                        break;
+                    case "A":
+                        if (FIMSamlet_score < 18 || FIMSamlet_score > 126)
+                        {
+                            errorMessage = "The value must be between 18 and 126";
+                        }
+                        break;
+                    case "B":
+						if (FIMSamlet_score < 18 || FIMSamlet_score > 126)
+                        {
+                            errorMessage = "The value must be between 18 and 126";
+                        }
+                        break;
+                }
+                return errorMessage;
+            }
+}
+
+#endregion
+	}
 }

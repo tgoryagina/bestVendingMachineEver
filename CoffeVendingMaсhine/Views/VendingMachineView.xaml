@@ -2,7 +2,20 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:commands="clr-namespace:CoffeVendingMaсhine.CompositeCommands"
+             xmlns:imputValidation="clr-namespace:CoffeVendingMaсhine.ImputValidation"
              Height="Auto" Width="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+
+	<UserControl.Resources>
+		<ControlTemplate x:Key="HideValidationErrorTamplate">
+			<Border Visibility="{Binding ElementName=placeHolder,
+                                     Path=AdornedElement.Visibility}"
+                BorderBrush="Transparent"
+                BorderThickness="0">
+				<AdornedElementPlaceholder x:Name="placeHolder"/>
+			</Border>
+		</ControlTemplate>
+	</UserControl.Resources>
+	
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -10,18 +23,22 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Кофейный аппарат" />
+        <TextBlock Grid.Row="0" Text="Кофейный аппарат" Visibility="Collapsed"/>
 
         <Border Grid.Row="1" Grid.Column="1" BorderThickness="1" Height="110"
-                BorderBrush="SlateGray" Margin="2" VerticalAlignment="Top">
+                BorderBrush="SlateGray" Margin="2" VerticalAlignment="Top" Visibility="Collapsed">
             <StackPanel Orientation="Vertical" Margin="4">
                 <TextBlock Text="Монетоприемник" />
                 <TextBlock Text="{Binding Change.Total}" />
@@ -29,7 +46,7 @@
         </Border>
 
         <Border Grid.Row="1" Grid.Column="2" BorderThickness="1" Height="110"
-                BorderBrush="SlateGray" Margin="2" VerticalAlignment="Top">
+                BorderBrush="SlateGray" Margin="2" VerticalAlignment="Top" Visibility="Collapsed">
             <StackPanel Orientation="Vertical" Margin="4">
             <TextBlock Text="Сдача" />
             <TextBlock Text="{Binding Change.Total}" />
@@ -40,21 +57,61 @@
         </Border>
 
         <Border Grid.Row="1" Grid.Column="0" BorderThickness="1"
-                BorderBrush="SlateGray" Margin="2">
+                BorderBrush="SlateGray" Margin="2" Visibility="Collapsed">
             <ContentControl Content="{Binding DrinksListViewModel.Content}" />
         </Border>
 
-        <TextBlock Grid.Row="2" Text="Монеты для сдачи"/>
+		<TextBlock Grid.Row="2" Text="Монеты для сдачи" Visibility="Collapsed"/>
         
         <Border Grid.Row="3" Grid.Column="0" BorderThickness="1"
-                BorderBrush="SlateGray" Margin="2">
+                BorderBrush="SlateGray" Margin="2" Visibility="Collapsed">
             <ContentControl Content="{Binding CoinsListViewModel.Content}" />
         </Border>
 
-        <StackPanel Grid.Row="4" Orientation="Horizontal">
+		<StackPanel Grid.Row="4" Orientation="Horizontal" Visibility="Collapsed">
             <TextBlock Text="Сумма в кофейном аппарате: " />
             <TextBlock Grid.Column="0" Text="{Binding Wallet.Total}"/>
-        </StackPanel> 
-        
-    </Grid>
+        </StackPanel>
+
+		<Label Content="Test Data" Foreground="BlueViolet" Grid.Column="0" Grid.Row="5"></Label>
+
+		<Label Content="A" Foreground="BlueViolet" Grid.Column="0" Grid.Row="6"></Label>
+		<TextBox Grid.Column="1" Grid.Row="6" Height="23" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Width="150" Background="WhiteSmoke"
+				 Validation.ErrorTemplate="{StaticResource HideValidationErrorTamplate}">
+			<TextBox.Text>
+				<Binding Path="A" Mode="TwoWay" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged"/>
+			</TextBox.Text>
+		</TextBox>
+
+		<Label Content="B" Foreground="BlueViolet" Grid.Column="0" Grid.Row="7"></Label>
+		<TextBox Grid.Column="1" Grid.Row="7" Height="23" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center" Width="150" Background="WhiteSmoke"
+				 Validation.ErrorTemplate="{StaticResource HideValidationErrorTamplate}">
+			<TextBox.Text>
+				<Binding Path="B" Mode="TwoWay" ValidatesOnDataErrors="True" UpdateSourceTrigger="PropertyChanged"/>
+			</TextBox.Text>
+		</TextBox>
+
+
+		<Label Content="FIMSamlet_score" Foreground="BlueViolet" Grid.Column="0" Grid.Row="8"/>
+		<TextBox Grid.Column="1" Grid.Row="8" Height="23" HorizontalAlignment="Left" Margin="5" Name="fIM_samletScore" VerticalAlignment="Center" Width="150" Background="WhiteSmoke">
+			<TextBox.Text>
+				<Binding Path="FIMSamlet_score" Mode="TwoWay" ValidatesOnExceptions="true" NotifyOnValidationError="true" ValidatesOnDataErrors="True"  UpdateSourceTrigger="PropertyChanged">
+					<Binding.ValidationRules>
+						<ExceptionValidationRule/>
+						<imputValidation:FIMRangeRule />
+					</Binding.ValidationRules>
+				</Binding>
+			</TextBox.Text>
+			<TextBox.Style>
+				<Style TargetType="TextBox">
+					<Style.Triggers>
+							<Trigger Property="Validation.HasError" Value="true">
+							<Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors).CurrentItem.ErrorContent}" />
+						</Trigger>
+					</Style.Triggers>
+				</Style>
+			</TextBox.Style>
+		</TextBox>
+
+	</Grid>
 </UserControl>

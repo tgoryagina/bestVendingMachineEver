@@ -123,6 +123,7 @@
     <Compile Include="Calculator\Contracts\IChangeCalculator.cs" />
     <Compile Include="CompositeCommands\Commands.cs" />
     <Compile Include="Converters\BooleanToCollapsedVisibilityConverter.cs" />
+    <Compile Include="ImputValidation\FIMRangeRule.cs" />
     <Compile Include="Model\CoinSet.cs" />
     <Compile Include="Model\Drink.cs" />
     <Compile Include="Model\Wallet.cs" />

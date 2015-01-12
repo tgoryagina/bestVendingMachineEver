@@ -24,11 +24,11 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
 
-        <ContentControl Grid.Row="0" Content="{Binding UserWalletViewModel.Content}" Margin="0,0,0,1" />
+        <ContentControl Grid.Row="0" Content="{Binding UserWalletViewModel.Content}" Margin="0,0,0,1" Visibility="Collapsed"/>
         <Border Grid.Row="0" BorderThickness="0,0,0,1" BorderBrush="SlateGray" />
         <ContentControl Grid.Row="1" Content="{Binding VendingMachineViewModel.Content}" />
 
